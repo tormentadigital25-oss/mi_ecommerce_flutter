@@ -9,6 +9,7 @@ class TColors {
   static const Color accent = Color(0xFFb0c7ff);
 
   //Gradient Colors
+  static const Color dashboardAppbarBackground = Color(0xFF4b68ff);
 
   //Text Colors
   static const Color textPrimary = Color(0xFF333333);

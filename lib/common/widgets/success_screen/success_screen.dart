@@ -3,6 +3,7 @@ import 'package:flutter_application_1/common/styles/spacing_styles.dart';
 import 'package:flutter_application_1/utils/constants/sizes.dart';
 import 'package:flutter_application_1/utils/constants/text_strings.dart';
 import 'package:flutter_application_1/utils/helpers/helpers_functions.dart';
+import 'package:lottie/lottie.dart';
 
 
 
@@ -28,10 +29,9 @@ class SuccessScreen extends StatelessWidget {
           padding: TSpacingStyle.paddingWithAppBarHeight * 2,
           child: Column(
             children: [
-              Image(
-                image: AssetImage(image),
-                width: THelperFunctions.screenWidth() * 0.6,
-              ),
+              image.endsWith('.json')
+              ? Lottie.asset(image, width: THelperFunctions.screenWidth() * 0.6) // Si es true, usa Lottie
+              : Image(image: AssetImage(image), width: THelperFunctions.screenWidth() * 0.6), // Si es false, usa Image normal
               const SizedBox(height: TSizes.spaceBtwSections),
               //Title and Subtitle
               Text(

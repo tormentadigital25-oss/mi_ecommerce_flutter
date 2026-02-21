@@ -3,7 +3,6 @@ import 'package:flutter_application_1/features/authentication/controllers/signup
 import 'package:flutter_application_1/utils/validators/validation.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:flutter_application_1/features/authentication/screens/signup/verify_email.dart';
 import 'package:flutter_application_1/features/authentication/screens/signup/widgets/terms_conditions_checkbox.dart';
 import 'package:flutter_application_1/utils/constants/sizes.dart';
 import 'package:flutter_application_1/utils/constants/text_strings.dart';
@@ -78,14 +77,18 @@ class TSignupForm extends StatelessWidget {
             ),
           ),
           const SizedBox(height: TSizes.spaceBtwInputFields),
-          TextFormField(
-            controller: controller.password,
-            validator: (value) => TValidator.validatePassword(value),
-            obscureText: true,
-            decoration: const InputDecoration(
-              labelText: TTexts.password,
-              prefixIcon: Icon(Iconsax.password_check),
-              suffixIcon: Icon(Iconsax.eye_slash),
+          Obx(
+            ()=> TextFormField(
+              controller: controller.password,
+              validator: (value) => TValidator.validatePassword(value),
+              obscureText: controller.hidePassword.value,
+              decoration: InputDecoration(
+                labelText: TTexts.password,
+                prefixIcon: const Icon(Iconsax.password_check),
+                suffixIcon: IconButton(
+                  onPressed: ()=> controller.hidePassword.value = !controller.hidePassword.value,
+                 icon: Icon(controller.hidePassword.value? Iconsax.eye_slash:Iconsax.eye)),
+              ),
             ),
           ),
           const SizedBox(height: TSizes.spaceBtwSections),
@@ -97,9 +100,7 @@ class TSignupForm extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => Get.to(
-                () => const VerifyEmailScreen(),
-              ), //Get.to permite poder regresar con la informacion guardada para no perder el registro del usuario
+              onPressed: ()=> controller.signup(),
               child: const Text(TTexts.createAccount),
             ),
           ),

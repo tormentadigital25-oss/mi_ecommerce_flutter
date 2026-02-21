@@ -55,6 +55,8 @@ class TImages {
       "assets/images/animations/sammy-line-man-receives-a-mail.png";
   static const String staticSuccessIlustration =
       "assets/images/animations/successIllustration.jpg";
+  static String docerAnimation = "assets/images/animations/141594-animation-of-docer.json";
+  static String successfullyRegisterAnimation = "assets/images/animations/72462-check-register.json";
 
   //Banners
   static const String promoBanner1 = "assets/images/banners/promo-banner-1.png";
