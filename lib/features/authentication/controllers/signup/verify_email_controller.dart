@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 
 class VerifyEmailController extends GetxController{
   static VerifyEmailController get instance => Get.find();
-
+  /// Se ejecuta al cargar la pantalla: dispara el correo de verificación y arranca el temporizador de chequeo.
   @override
   void onInit(){
     sendEmailVerification();
@@ -18,7 +18,7 @@ class VerifyEmailController extends GetxController{
     super.onInit();
   }
 
-  // Send email verification link
+  /// Solicita al repositorio que envíe el enlace de verificación y muestra un aviso (SnackBar) al usuario.
   sendEmailVerification() async {
     try{
       await AuthenticationRepository.instance.sendEmailVerification();
@@ -27,7 +27,7 @@ class VerifyEmailController extends GetxController{
       TLoaders.errorSnackBar(title: 'Oh Snap!',message: e.toString());
     }
   }
-
+  /// BUCLE AUTOMÁTICO: Revisa cada 3 segundos si el usuario ya pulsó el link en su email para redirigirlo sin que haga nada.
   setTimerForAutoRedirect() {
   Timer.periodic(const Duration(seconds: 3), (timer) async {
     try {
@@ -52,7 +52,7 @@ class VerifyEmailController extends GetxController{
     }
   });
 }
-
+  /// BOTÓN MANUAL: Permite al usuario forzar el chequeo si no quiere esperar al temporizador.
   checkEmailVerificationStatus() async{
     await FirebaseAuth.instance.currentUser?.reload();
     final currentUser = FirebaseAuth.instance.currentUser;

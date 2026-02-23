@@ -14,11 +14,11 @@ import 'package:get_storage/get_storage.dart';
 
 class AuthenticationRepository extends GetxController{
   static AuthenticationRepository get instance => Get.find();
-
+  /// Almacenamiento local (para saber si es la primera vez que abre la app) y conexión con Firebase Auth.
   final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
 
-  //Lo llama desde el main en el lanzamiento
+  /// Se ejecuta al iniciar la app: quita la pantalla de carga (Splash) y decide a dónde enviar al usuario.(Boton de encendido del coche)
   @override
   void onReady(){  
     //AuthenticationRepository.instance.logout();  
@@ -26,7 +26,7 @@ class AuthenticationRepository extends GetxController{
     screenRedirect();
   }
   
-  //Funcion que define si muestra el onboarding o el Login
+  /// EL CEREBRO DE LA NAVEGACIÓN: Evalúa si el usuario está logueado, verificado o si es nuevo para mostrar la pantalla correcta.
   screenRedirect() async{
     final user = _auth.currentUser;
     if(user != null){
@@ -43,7 +43,23 @@ class AuthenticationRepository extends GetxController{
     
   }
 
-  //Registro
+  Future<UserCredential> loginWithEmailAndPassword(String email,String password) async{
+    try {
+    return await _auth.signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
+
+  /// Crea una nueva cuenta en Firebase Authentication usando correo y contraseña.
   Future <UserCredential> registerWithEmailAndPassword(String email,String password) async{
         try {
     return await _auth.createUserWithEmailAndPassword(email: email, password: password);
@@ -60,7 +76,7 @@ class AuthenticationRepository extends GetxController{
     }
   }
 
-  //Email Verification
+  /// Envía el correo electrónico de validación al usuario que acaba de registrarse.
   Future<void> sendEmailVerification() async{
     try {
       await _auth.currentUser?.sendEmailVerification();      
@@ -78,7 +94,7 @@ class AuthenticationRepository extends GetxController{
 
   }
 
-    /// [LogoutUser] - Valid for any authentication.
+  /// Cierra la sesión activa y redirige al usuario a la pantalla de Login.
   Future<void> logout() async {
     try {
       await FirebaseAuth.instance.signOut();      

@@ -4,6 +4,7 @@ import 'package:flutter_application_1/common/widgets/custom_shapes/containers/pr
 import 'package:flutter_application_1/common/widgets/list_tiles/settings_menu_tile.dart';
 import 'package:flutter_application_1/common/widgets/list_tiles/user_profile_tile.dart';
 import 'package:flutter_application_1/common/widgets/texts/section_heading.dart';
+import 'package:flutter_application_1/data/repositories/authentitation/authentication_repository.dart';
 import 'package:flutter_application_1/features/personalization/screens/address/address.dart';
 import 'package:flutter_application_1/features/personalization/screens/profile/profile.dart';
 import 'package:flutter_application_1/features/shop/screens/order/order.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_application_1/utils/constants/colors.dart';
 import 'package:flutter_application_1/utils/constants/sizes.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+
 
 
 class SettingsScreen extends StatelessWidget {
@@ -133,7 +135,7 @@ class SettingsScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () => AuthenticationRepository.instance.logout(),
                       child: const Text('Logout'),
                     ),
                   ),
