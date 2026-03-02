@@ -18,6 +18,7 @@ class UserController extends GetxController {
   final profileLoading = false.obs;
   Rx<UserModel> user = UserModel.empty().obs;
   final hidePassword = false.obs;
+  final imageUploading=false.obs;
   final verifyEmail = TextEditingController();
   final verifyPassword = TextEditingController();
   final userRepository = Get.put(UserRepository());
@@ -164,6 +165,8 @@ class UserController extends GetxController {
       );
 
       if (image != null) {
+
+        imageUploading.value=true;
         // 2. Subir la imagen a ImgBB usando el repositorio
         // (Asumo que tienes: final userRepository = Get.put(UserRepository());)
         final imageUrl = await userRepository.uploadImage(image);
@@ -178,12 +181,14 @@ class UserController extends GetxController {
 
         // 5. Mostrar mensaje de éxito
         TLoaders.successSnackBar(
-            title: '¡Logrado!',
-            message: 'Tu foto de perfil se ha actualizado.');
+            title: 'Congratulations!',
+            message: 'Your Profile Image has been updated');
       }
     } catch (e) {
       // Si algo falla, mostramos el error
-      TLoaders.errorSnackBar(title: 'Algo salió mal', message: e.toString());
+      TLoaders.errorSnackBar(title: 'Oh Snap', message: 'Something went wrong: $e');
+    }finally{
+      imageUploading.value=false;
     }
   }
 }

@@ -3,12 +3,15 @@ import 'package:flutter_application_1/common/widgets/brands/brand_show_case.dart
 import 'package:flutter_application_1/common/widgets/layouts/grid_layout.dart';
 import 'package:flutter_application_1/common/widgets/products/product_cards/product_card_vertical.dart';
 import 'package:flutter_application_1/common/widgets/texts/section_heading.dart';
+import 'package:flutter_application_1/features/shop/models/category_model.dart';
 import 'package:flutter_application_1/utils/constants/image_strings.dart';
 import 'package:flutter_application_1/utils/constants/sizes.dart';
 
 
 class TCategoryTab extends StatelessWidget {
-  const TCategoryTab({super.key});
+  const TCategoryTab({super.key,required this.category});
+
+  final CategoryModel category;
 
   @override
   Widget build(BuildContext context) {
