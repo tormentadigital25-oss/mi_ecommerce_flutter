@@ -14,16 +14,12 @@ import 'package:flutter_application_1/utils/constants/sizes.dart';
 import 'package:flutter_application_1/utils/helpers/helpers_functions.dart';
 import 'package:get/get.dart';
 
-
-
-
-
 class StoreScreen extends StatelessWidget {
   const StoreScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final categories = CategoryController.instance.featuredCategories; 
+    final categories = CategoryController.instance.featuredCategories;
     return DefaultTabController(
       length: categories.length,
       child: Scaffold(
@@ -77,15 +73,17 @@ class StoreScreen extends StatelessWidget {
                   ),
                 ),
                 //Tabs
-                bottom:  TTabBar(
-                  tabs: categories.map((category)=> Tab(child: Text(category.name))).toList()
-                ),
+                bottom: TTabBar(
+                    tabs: categories
+                        .map((category) => Tab(child: Text(category.name)))
+                        .toList()),
               ),
             ];
           },
-          body:  TabBarView(
-            children: categories.map((category)=>TCategoryTab(category:category)).toList()
-          ),
+          body: TabBarView(
+              children: categories
+                  .map((category) => TCategoryTab(category: category))
+                  .toList()),
         ),
       ),
     );

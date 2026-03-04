@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/data/services/imgbb_storage_service.dart';
@@ -37,16 +36,21 @@ class CategoryRepository extends GetxController {
       throw 'Something went wrong. Please try again';
     }
   }
+
   // Sube las categorias a Firebase
+  // Este método es un "Seeder": Toma imágenes locales, las sube a la nube (ImgBB),
+  // obtiene el link y guarda la referencia final en Firestore.
   Future<void> uploadDummyData(List<CategoryModel> categories) async {
     try {
       final storage = Get.put(TImgBBStorageService());
       //Loop por cada categoria
       for (var category in categories) {
-        //Obtiene ImageData link desde el local assets        
-        final Uint8List file = await storage.getImageDataFromAssets(category.image);
+        //Obtiene ImageData link desde el local assets
+        final Uint8List file =
+            await storage.getImageDataFromAssets(category.image);
         //Sube la imagen y obtiene su url
-        final url = await storage.uploadImageData('Categories', file, category.name);
+        final url =
+            await storage.uploadImageData('Categories', file, category.name);
         category.image = url;
         await _db
             .collection("Categories")

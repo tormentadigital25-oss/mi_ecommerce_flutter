@@ -26,7 +26,8 @@ class CategoryController extends GetxController {
       final categories = await _categoryRepository.getAllCategories();
       // Actualiza la lista de categorias
       allCategories.assignAll(categories);
-      //filtra featured categories
+      // Filtramos categorías que: 1. Sean destacadas (isFeatured)
+      // y 2. Sean categorías principales (parentId vacío).
       featuredCategories.assignAll(allCategories
           .where((category) => category.isFeatured && category.parentId.isEmpty)
           .take(8)

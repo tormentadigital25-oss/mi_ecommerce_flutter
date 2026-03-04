@@ -7,9 +7,8 @@ import 'package:flutter_application_1/features/shop/models/category_model.dart';
 import 'package:flutter_application_1/utils/constants/image_strings.dart';
 import 'package:flutter_application_1/utils/constants/sizes.dart';
 
-
 class TCategoryTab extends StatelessWidget {
-  const TCategoryTab({super.key,required this.category});
+  const TCategoryTab({super.key, required this.category});
 
   final CategoryModel category;
 

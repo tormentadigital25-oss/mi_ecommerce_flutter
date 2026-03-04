@@ -27,7 +27,9 @@ class CategoryModel {
     };
   }
 
-  ///Para convertir la informacion desde la base de datos de Firebase a UserModel
+  /// Factory para crear un CategoryModel a partir de un DocumentSnapshot de Firebase.
+  /// Útil para convertir datos de la base de datos en objetos de código.
+
   factory CategoryModel.fromSnapshot(
       DocumentSnapshot<Map<String, dynamic>> document) {
     if (document.data() != null) {

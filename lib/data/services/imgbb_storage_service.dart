@@ -17,7 +17,8 @@ class TImgBBStorageService extends GetxController {
     try {
       final byteData = await rootBundle.load(path);
       // Corregido el typo de 'lengthInBYtes' a 'lengthInBytes'
-      final imageData = byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
+      final imageData = byteData.buffer
+          .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
       return imageData;
     } catch (e) {
       throw 'Error loading image data: $e';
@@ -26,7 +27,8 @@ class TImgBBStorageService extends GetxController {
 
   /// --- FUNCIÓN 2: SUBIR DATOS (BYTES) A IMGBB (EQUIVALENTE A PUTDATA) ---
   /// Mantenemos 'path' para que el código del curso no de error, aunque ImgBB no use carpetas.
-  Future<String> uploadImageData(String path, Uint8List image, String name) async {
+  Future<String> uploadImageData(
+      String path, Uint8List image, String name) async {
     try {
       // Convertimos los bytes a Base64 para la API de ImgBB
       String base64Image = base64Encode(image);
@@ -41,7 +43,8 @@ class TImgBBStorageService extends GetxController {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        return data['data']['url']; // Retornamos la URL igual que 'getDownloadURL'
+        return data['data']
+            ['url']; // Retornamos la URL igual que 'getDownloadURL'
       } else {
         throw 'Error de ImgBB: ${response.reasonPhrase}';
       }
@@ -62,10 +65,9 @@ class TImgBBStorageService extends GetxController {
     try {
       // Leemos los bytes del archivo XFile
       final Uint8List bytes = await image.readAsBytes();
-      
+
       // Reutilizamos nuestra función de arriba para no repetir código
       return await uploadImageData(path, bytes, image.name);
-      
     } catch (e) {
       throw 'Something went wrong! Please try again.';
     }

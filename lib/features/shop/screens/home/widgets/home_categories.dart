@@ -3,7 +3,6 @@ import 'package:flutter_application_1/common/widgets/image_text_widgets/vertical
 import 'package:flutter_application_1/common/widgets/shimmers/category_shimmer.dart';
 import 'package:flutter_application_1/features/shop/controllers/category_controller.dart';
 import 'package:flutter_application_1/features/shop/screens/sub_category/sub_categories.dart';
-import 'package:flutter_application_1/utils/constants/image_strings.dart';
 import 'package:get/get.dart';
 
 class THomeCategories extends StatelessWidget {
