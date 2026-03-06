@@ -120,4 +120,8 @@ class TImages {
       "assets/images/products/tshirt_blue_without_collar_back.png";
   static const String productImage69 =
       "assets/images/products/tshirt_blue_without_collar_front.png";
+
+  static const String nikeLogo = "assets/icons/brands/nike.png";
+  static const String zaraLogo = "assets/icons/brands/zara-logo.png";
+  static const String appleLogo = "assets/icons/brands/apple-logo.png";
 }

@@ -5,26 +5,30 @@ import 'package:flutter_application_1/common/widgets/icons/t_circular_icon.dart'
 import 'package:flutter_application_1/common/widgets/images/t_rounded_image.dart';
 import 'package:flutter_application_1/common/widgets/texts/product_title_text.dart';
 import 'package:flutter_application_1/common/widgets/texts/t_brand_title_text_with_verified_icon.dart';
+import 'package:flutter_application_1/features/shop/controllers/product_controller.dart';
+import 'package:flutter_application_1/features/shop/models/product_model.dart';
 import 'package:flutter_application_1/features/shop/screens/product_details/product_detail.dart';
 import 'package:flutter_application_1/utils/constants/colors.dart';
-import 'package:flutter_application_1/utils/constants/image_strings.dart';
+import 'package:flutter_application_1/utils/constants/enums.dart';
 import 'package:flutter_application_1/utils/constants/sizes.dart';
 import 'package:flutter_application_1/utils/helpers/helpers_functions.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-
-
-
 class TProductCardVertical extends StatelessWidget {
-  const TProductCardVertical({super.key});
+  const TProductCardVertical({super.key, required this.product});
+
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
+    final controller = ProductController.instance;
+    final salePercentage =
+        controller.calculateSalePercentage(product.price, product.salePrice);
     final dark = THelperFunctions.isDarkMode(context);
 
     return GestureDetector(
-      onTap: () => Get.to(() => const ProductDetailScreen()),
+      onTap: () => Get.to(() => ProductDetailScreen(product: product)),
       child: Container(
         width: 180,
         padding: const EdgeInsets.all(1),
@@ -33,17 +37,22 @@ class TProductCardVertical extends StatelessWidget {
           borderRadius: BorderRadius.circular(TSizes.productImageRadius),
           color: dark ? TColors.darkerGrey : TColors.white,
         ),
-        child: Column(mainAxisSize: MainAxisSize.min,crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TRoundedContainer(
-              height: 180,width: 180,
+              height: 180,
+              width: 180,
               padding: const EdgeInsets.all(TSizes.sm),
               backgroundColor: dark ? TColors.dark : TColors.light,
               child: Stack(
                 children: [
-                  const TRoundedImage(
-                    imageUrl: TImages.productImage1,
+                  TRoundedImage(
+                    // ver si se necesita meter esto en un Center
+                    imageUrl: product.thumbnail,
                     applyImageRadius: true,
+                    isNetworkImage: true,
                   ),
                   Positioned(
                     top: 12,
@@ -55,7 +64,7 @@ class TProductCardVertical extends StatelessWidget {
                         vertical: TSizes.xs,
                       ),
                       child: Text(
-                        '25%',
+                        '$salePercentage%',
                         style: Theme.of(
                           context,
                         ).textTheme.labelLarge!.apply(color: TColors.black),
@@ -74,30 +83,46 @@ class TProductCardVertical extends StatelessWidget {
               ),
             ),
             const SizedBox(height: TSizes.spaceBtwItems / 2),
-            const SizedBox(height: 60,
-              child:  Padding(
-                padding: EdgeInsets.only(left: TSizes.sm),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: TSizes.sm),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TProductTitleText(
-                      title: 'Green Nike Air Shoes',
+                      title: product.title,
+                      maxLines: 2,
                       smallSize: true,
                     ),
-                    SizedBox(height: TSizes.spaceBtwItems / 2),
-                    TBrandTitleWithVerifiedIcon(title: 'Nike'),
+                    const SizedBox(height: TSizes.spaceBtwItems / 2),
+                    TBrandTitleWithVerifiedIcon(title: product.brand!.name),
                   ],
                 ),
               ),
             ),
             const SizedBox(height: TSizes.sm),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: TSizes.sm),
-                  child: TProductPriceText(price: '35'),
+                Flexible(
+                  child: Column(
+                    children: [
+                      if (product.productType ==
+                              ProductType.single.toString() &&
+                          product.salePrice! > 0)
+                        Padding(
+                          padding: const EdgeInsets.only(left: TSizes.sm),
+                          child: Text(
+                            product.price.toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium!
+                                .apply(decoration: TextDecoration.lineThrough),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
                 Container(
                   decoration: const BoxDecoration(
@@ -147,11 +172,11 @@ class TProductPriceText extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       style: isLarge
           ? Theme.of(context).textTheme.headlineMedium!.apply(
-              decoration: lineThrough ? TextDecoration.lineThrough : null,
-            )
+                decoration: lineThrough ? TextDecoration.lineThrough : null,
+              )
           : Theme.of(context).textTheme.titleLarge!.apply(
-              decoration: lineThrough ? TextDecoration.lineThrough : null,
-            ),
+                decoration: lineThrough ? TextDecoration.lineThrough : null,
+              ),
     );
   }
 }

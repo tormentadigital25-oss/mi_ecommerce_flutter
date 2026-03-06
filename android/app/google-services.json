@@ -7,17 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:953556829974:android:e72f9eb4eece8377e6f237",
+        "mobilesdk_app_id": "1:953556829974:android:add8fd6f9849252be6f237",
         "android_client_info": {
-          "package_name": "com.example.flutter_application_1"
+          "package_name": "com.lupincho.ecommerce"
         }
       },
       "oauth_client": [
         {
-          "client_id": "953556829974-igedepi1itpceg6hge6kredmk3g3dni5.apps.googleusercontent.com",
+          "client_id": "953556829974-v99rple8nf9lkh33qt202thes58r0d7c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.flutter_application_1",
+            "package_name": "com.lupincho.ecommerce",
             "certificate_hash": "872d788a22f5068830dde1c888b5488ec9a7e46b"
           }
         },

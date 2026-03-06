@@ -3,13 +3,14 @@ import 'package:flutter_application_1/common/widgets/custom_shapes/containers/pr
 import 'package:flutter_application_1/common/widgets/custom_shapes/containers/search_container.dart';
 import 'package:flutter_application_1/common/widgets/layouts/grid_layout.dart';
 import 'package:flutter_application_1/common/widgets/products/product_cards/product_card_vertical.dart';
+import 'package:flutter_application_1/common/widgets/shimmers/vertical_product_shimmer.dart';
 import 'package:flutter_application_1/common/widgets/texts/section_heading.dart';
+import 'package:flutter_application_1/features/shop/controllers/product_controller.dart';
 import 'package:flutter_application_1/features/shop/screens/all_products/all_products.dart';
 import 'package:flutter_application_1/features/shop/screens/home/widgets/home_appbar.dart';
 import 'package:flutter_application_1/features/shop/screens/home/widgets/home_categories.dart';
 import 'package:flutter_application_1/features/shop/screens/home/widgets/promo_slider.dart';
 import 'package:flutter_application_1/utils/constants/colors.dart';
-import 'package:flutter_application_1/utils/constants/image_strings.dart';
 import 'package:flutter_application_1/utils/constants/sizes.dart';
 import 'package:get/get.dart';
 
@@ -18,6 +19,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ProductController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -64,10 +66,26 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: TSizes.spaceBtwItems),
                   //Popular Products
-                  TGridLayout(
-                    itemCount: 2,
-                    itemBuilder: (_, index) => const TProductCardVertical(),
-                  ),
+                  Obx(() {
+                    if (controller.isLoading.value) {
+                      return const TVerticalProductShimmer();
+                    }
+
+                    if (controller.featuredProducts.isEmpty) {
+                      return Center(
+                        child: Text(
+                          'No Data Found!',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      );
+                    }
+                    return TGridLayout(
+                      itemCount: controller.featuredProducts.length,
+                      itemBuilder: (_, index) => TProductCardVertical(
+                        product: controller.featuredProducts[index],
+                      ),
+                    );
+                  }),
                 ],
               ),
             ),
