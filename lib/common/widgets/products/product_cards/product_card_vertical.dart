@@ -5,7 +5,7 @@ import 'package:flutter_application_1/common/widgets/icons/t_circular_icon.dart'
 import 'package:flutter_application_1/common/widgets/images/t_rounded_image.dart';
 import 'package:flutter_application_1/common/widgets/texts/product_title_text.dart';
 import 'package:flutter_application_1/common/widgets/texts/t_brand_title_text_with_verified_icon.dart';
-import 'package:flutter_application_1/features/shop/controllers/product_controller.dart';
+import 'package:flutter_application_1/features/shop/controllers/product/product_controller.dart';
 import 'package:flutter_application_1/features/shop/models/product_model.dart';
 import 'package:flutter_application_1/features/shop/screens/product_details/product_detail.dart';
 import 'package:flutter_application_1/utils/constants/colors.dart';
@@ -83,7 +83,8 @@ class TProductCardVertical extends StatelessWidget {
               ),
             ),
             const SizedBox(height: TSizes.spaceBtwItems / 2),
-            Expanded(
+            Flexible(
+              fit: FlexFit.loose,
               child: Padding(
                 padding: const EdgeInsets.only(left: TSizes.sm),
                 child: Column(
@@ -92,11 +93,13 @@ class TProductCardVertical extends StatelessWidget {
                   children: [
                     TProductTitleText(
                       title: product.title,
-                      maxLines: 2,
+                      maxLines: 1,
                       smallSize: true,
                     ),
                     const SizedBox(height: TSizes.spaceBtwItems / 2),
-                    TBrandTitleWithVerifiedIcon(title: product.brand!.name),
+                    TBrandTitleWithVerifiedIcon(
+                      title: product.brand?.name ?? 'Marca no disponible',
+                    ),
                   ],
                 ),
               ),
@@ -110,17 +113,24 @@ class TProductCardVertical extends StatelessWidget {
                     children: [
                       if (product.productType ==
                               ProductType.single.toString() &&
-                          product.salePrice! > 0)
+                          (product.salePrice ?? 0) > 0)
                         Padding(
-                          padding: const EdgeInsets.only(left: TSizes.sm),
-                          child: Text(
-                            product.price.toString(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium!
-                                .apply(decoration: TextDecoration.lineThrough),
-                          ),
+                            padding: const EdgeInsets.only(left: TSizes.sm),
+                            child: Text(
+                              product.price.toString(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.apply(
+                                      decoration: TextDecoration.lineThrough),
+                            )),
+                      Padding(
+                        padding: const EdgeInsets.only(left: TSizes.sm),
+                        child: TProductPriceText(
+                          price: controller.getProductPrice(
+                              product), // Asegúrate de tener este método en el controller
                         ),
+                      ),
                     ],
                   ),
                 ),

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/widgets/custom_shapes/containers/primary_header_container.dart';
 import 'package:flutter_application_1/common/widgets/custom_shapes/containers/search_container.dart';
@@ -5,7 +6,7 @@ import 'package:flutter_application_1/common/widgets/layouts/grid_layout.dart';
 import 'package:flutter_application_1/common/widgets/products/product_cards/product_card_vertical.dart';
 import 'package:flutter_application_1/common/widgets/shimmers/vertical_product_shimmer.dart';
 import 'package:flutter_application_1/common/widgets/texts/section_heading.dart';
-import 'package:flutter_application_1/features/shop/controllers/product_controller.dart';
+import 'package:flutter_application_1/features/shop/controllers/product/product_controller.dart';
 import 'package:flutter_application_1/features/shop/screens/all_products/all_products.dart';
 import 'package:flutter_application_1/features/shop/screens/home/widgets/home_appbar.dart';
 import 'package:flutter_application_1/features/shop/screens/home/widgets/home_categories.dart';
@@ -62,7 +63,10 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: TSizes.spaceBtwSections),
                   TSectionHeading(
                     title: 'Popular Products',
-                    onPressed: () => Get.to(() => const AllProducts()),
+                    onPressed: () => Get.to(() => AllProducts(
+                          title: 'Popular Products',                          
+                          futureMethod: controller.fetchAllFeaturedProducts(),
+                        )),
                   ),
                   const SizedBox(height: TSizes.spaceBtwItems),
                   //Popular Products

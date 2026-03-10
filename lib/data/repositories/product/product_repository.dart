@@ -34,9 +34,47 @@ class ProductRepository extends GetxController {
     }
   }
 
-/// Función de utilidad para inicializar la base de datos con datos de prueba.
-/// Se encarga de procesar imágenes en local (assets) y subirlas a un servicio de almacenamiento,
-/// para luego guardar el objeto completo en Firestore.
+  Future<List<ProductModel>> getAllFeaturedProducts() async {
+    try {
+      final snapshot = await _db
+          .collection('Products')
+          .where('IsFeatured', isEqualTo: true)
+          .get();
+      // Mapeo: Transforma los documentos de Firestore a objetos ProductModel
+      return snapshot.docs.map((e) => ProductModel.fromSnapshot(e)).toList();
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } on SocketException catch (e) {
+      throw e.message; // Vital para fallos de conexión a Internet
+    } on PlatformException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<List<ProductModel>> fetchProductsByQuery(Query query) async {
+    try {
+      final querySnapshot = await query.get();
+      final List<ProductModel> productList = querySnapshot.docs
+          .map((doc) => ProductModel.fromQuerySnapshot(doc))
+          .toList();
+
+      return productList;
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } on SocketException catch (e) {
+      throw e.message;
+    } on PlatformException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  /// Función de utilidad para inicializar la base de datos con datos de prueba.
+  /// Se encarga de procesar imágenes en local (assets) y subirlas a un servicio de almacenamiento,
+  /// para luego guardar el objeto completo en Firestore.
   Future<void> uploadDummyData(List<ProductModel> products) async {
     try {
       final storage = Get.put(TImgBBStorageService());
@@ -72,15 +110,13 @@ class ProductRepository extends GetxController {
           }
         }
 
-        
         // 2. Persistencia en Firestore: Una vez que tenemos las URLs, guardamos el JSON.
         await _db.collection('Products').doc(product.id).set(product.toJson());
       }
     } on FirebaseException catch (e) {
       throw e.message!;
     } on SocketException catch (e) {
-      throw e
-          .message; 
+      throw e.message;
     } on PlatformException catch (e) {
       throw e.message!;
     } catch (e) {

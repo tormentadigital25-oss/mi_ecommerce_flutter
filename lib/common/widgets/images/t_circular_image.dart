@@ -28,6 +28,7 @@ class TCircularImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = THelperFunctions.isDarkMode(context);
+    
     return Container(
       width: width,
       height: height,
@@ -38,21 +39,36 @@ class TCircularImage extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(100),
-        child: isNetworkImage
-            ? CachedNetworkImage(
-                fit: BoxFit.cover,
-                color: overlayColor,
-                imageUrl: image,
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    const TShimmerEffect(width: 55, height: 55),
-                errorWidget: (conext, url, error) => const Icon(Icons.error),
-              )
-            : Image(
-                fit: fit,
-                image: AssetImage(image),
-                color: overlayColor,
-              ),
+        child: Center( // Agregamos un Center por si el placeholder es pequeño
+          child: _buildImageWidget(),
+        ),
       ),
     );
+  }
+
+  // --- Lógica de renderizado con escudo de seguridad ---
+  Widget _buildImageWidget() {
+    // 1. ESCUDO: Si el string de la imagen está vacío, no disparamos el error
+    if (image.isEmpty) {
+      return const Icon(Icons.storefront, size: 20); // O cualquier placeholder
+    }
+
+    // 2. Si hay datos, procedemos normalmente
+    if (isNetworkImage) {
+      return CachedNetworkImage(
+        fit: fit ?? BoxFit.cover,
+        color: overlayColor,
+        imageUrl: image,
+        progressIndicatorBuilder: (context, url, downloadProgress) =>
+            const TShimmerEffect(width: 55, height: 55),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+      );
+    } else {
+      return Image(
+        fit: fit,
+        image: AssetImage(image),
+        color: overlayColor,
+      );
+    }
   }
 }

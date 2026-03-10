@@ -33,4 +33,12 @@ class BannerController extends GetxController {
       isLoading.value = false;
     }
   }
+  // Metodo creado por Gemini para ayudar a evitar que se congele la app al hacer click en el banner
+  void navigateToTarget(String screen) {
+  if (screen.isEmpty) return;
+  // Usamos Future.delayed para asegurar que la UI termine su ciclo de renderizado antes de saltar
+  Future.delayed(const Duration(milliseconds: 100), () {
+    Get.toNamed(screen);
+  });
+}
 }

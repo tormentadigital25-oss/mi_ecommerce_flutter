@@ -7,6 +7,7 @@ import 'package:flutter_application_1/features/shop/screens/product_details/widg
 import 'package:flutter_application_1/features/shop/screens/product_details/widgets/product_meta_data.dart';
 import 'package:flutter_application_1/features/shop/screens/product_details/widgets/rating_share_widget.dart';
 import 'package:flutter_application_1/features/shop/screens/product_reviews/product_reviews.dart';
+import 'package:flutter_application_1/utils/constants/enums.dart';
 import 'package:flutter_application_1/utils/constants/sizes.dart';
 import 'package:flutter_application_1/utils/helpers/helpers_functions.dart';
 import 'package:get/get.dart';
@@ -27,7 +28,7 @@ class ProductDetailScreen extends StatelessWidget {
         child: Column(
           children: [
             //Product Image Slider
-            const TProductImageSlider(),
+            TProductImageSlider(product: product),
             Padding(
               padding: const EdgeInsets.only(
                 right: TSizes.defaultSpace,
@@ -39,10 +40,16 @@ class ProductDetailScreen extends StatelessWidget {
                   //Rating and share button
                   const TRatingAndShare(),
                   //Price, Title,Stock and Brand
-                  const TProductMetaData(),
+                  TProductMetaData(
+                    product: product,
+                  ),
 
-                  const TProductAttributes(),
-                  const SizedBox(height: TSizes.spaceBtwSections),
+                  if (product.productType == ProductType.variable.toString())
+                    TProductAttributes(
+                      product: product,
+                    ),
+                  if (product.productType == ProductType.variable.toString())
+                    const SizedBox(height: TSizes.spaceBtwSections),
 
                   SizedBox(
                     width: double.infinity,
@@ -57,16 +64,16 @@ class ProductDetailScreen extends StatelessWidget {
                     showActionButton: false,
                   ),
                   const SizedBox(height: TSizes.spaceBtwItems),
-                  const ReadMoreText(
-                    'This is a product desciption for Blue Nike Sleeve less vest. There are more things that can be added but i am just practicing and nothing else',
+                  ReadMoreText(
+                    product.description ?? '',
                     trimLines: 2,
                     trimMode: TrimMode.Line,
                     trimCollapsedText: 'Show more',
-                    moreStyle: TextStyle(
+                    moreStyle: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w800,
                     ),
-                    lessStyle: TextStyle(
+                    lessStyle: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w800,
                     ),
