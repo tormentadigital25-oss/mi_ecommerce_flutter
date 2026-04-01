@@ -1,5 +1,7 @@
 # E-commerce App: Moda & Estilo 👗✨
 
+![Vista previa de la App](Smarthphone_Ecommerce.png)
+
 Una aplicación de comercio electrónico moderna desarrollada con **Flutter**, enfocada en una experiencia de usuario (UX) premium para el sector retail de moda. Este proyecto destaca por su interfaz limpia, navegación intuitiva y catálogo de productos dinámico.
 
 ## 🌟 Características Destacadas
