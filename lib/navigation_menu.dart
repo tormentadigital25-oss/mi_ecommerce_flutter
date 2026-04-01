@@ -40,7 +40,7 @@ class NavigationMenu extends StatelessWidget {
           ],
         ),
       ),
-      body: Obx(() => controller.screens[controller.selectedIndex.value]),
+      body: Obx(() => controller.currentScreen),
     );
   }
 }
@@ -48,10 +48,15 @@ class NavigationMenu extends StatelessWidget {
 class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
 
-  final screens = [
-    const HomeScreen(),
-    const StoreScreen(),
-    const FavouriteScreen(),
-    const SettingsScreen(),
+  // Al definir la lista aquí, las instancias de las pantallas 
+  // se mantienen vivas mientras el controlador exista.
+  final screens = const [
+    HomeScreen(),
+    StoreScreen(),
+    FavouriteScreen(),
+    SettingsScreen(),
   ];
+
+  Widget get currentScreen => screens[selectedIndex.value];
 }
+

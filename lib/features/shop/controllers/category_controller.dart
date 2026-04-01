@@ -1,5 +1,7 @@
 import 'package:flutter_application_1/data/repositories/categories/category_repository.dart';
+import 'package:flutter_application_1/data/repositories/product/product_repository.dart';
 import 'package:flutter_application_1/features/shop/models/category_model.dart';
+import 'package:flutter_application_1/features/shop/models/product_model.dart';
 import 'package:flutter_application_1/utils/popus/loaders.dart';
 import 'package:get/get.dart';
 
@@ -39,5 +41,9 @@ class CategoryController extends GetxController {
     }
   }
 
-  ///Cargar Category data
+  //Cargar categorias o subcategorias de productos
+  Future<List<ProductModel>> getCategoryProducts({required String categoryId,int limit=4})async{
+    final products = await ProductRepository.instance.getProductsForCategory(categoryId:categoryId,limit:limit);
+    return products;
+  }
 }

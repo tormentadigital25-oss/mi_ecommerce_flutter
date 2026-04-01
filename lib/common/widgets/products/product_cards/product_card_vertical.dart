@@ -54,6 +54,7 @@ class TProductCardVertical extends StatelessWidget {
                     applyImageRadius: true,
                     isNetworkImage: true,
                   ),
+                  if(salePercentage != null)
                   Positioned(
                     top: 12,
                     child: TRoundedContainer(

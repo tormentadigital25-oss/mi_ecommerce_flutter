@@ -1,16 +1,18 @@
-# flutter_application_1
+# E-commerce App: Moda & Estilo 👗✨
 
-A new Flutter project.
+Una aplicación de comercio electrónico moderna desarrollada con **Flutter**, enfocada en una experiencia de usuario (UX) premium para el sector retail de moda. Este proyecto destaca por su interfaz limpia, navegación intuitiva y catálogo de productos dinámico.
 
-## Getting Started
+## 🌟 Características Destacadas
+* **Catálogo de Productos:** Visualización de artículos con imágenes en alta resolución y detalles específicos.
+* **Experiencia de Usuario (UX):** Transiciones fluidas entre categorías y pantallas de productos.
+* **Diseño Responsivo:** Adaptado para una visualización óptima en dispositivos móviles (probado en Moto G15).
+* **Gestión de Carrito:** Estructura para manejo de selección de tallas, colores y cantidades.
 
-This project is a starting point for a Flutter application.
+## 🛠️ Stack Tecnológico
+* **Framework:** [Flutter](https://flutter.dev)
+* **Lenguaje:** [Dart](https://dart.dev)
+* **Arquitectura:** Modular y mantenible.
+* **Assets:** Gestión optimizada de recursos visuales.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+Desarrollado por **Tormenta Digital** | Soluciones móviles de alto impacto.

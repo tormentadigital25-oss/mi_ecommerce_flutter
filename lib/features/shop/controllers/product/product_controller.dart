@@ -1,4 +1,5 @@
 import 'package:flutter_application_1/data/repositories/product/product_repository.dart';
+import 'package:flutter_application_1/features/shop/models/dummy_data.dart';
 import 'package:flutter_application_1/features/shop/models/product_model.dart';
 import 'package:flutter_application_1/utils/constants/enums.dart';
 import 'package:flutter_application_1/utils/popus/loaders.dart';

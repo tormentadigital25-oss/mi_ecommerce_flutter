@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_application_1/common/widgets/brands/brand_show_case.dart';
 import 'package:flutter_application_1/common/widgets/layouts/grid_layout.dart';
 import 'package:flutter_application_1/common/widgets/products/product_cards/product_card_vertical.dart';
+import 'package:flutter_application_1/common/widgets/shimmers/vertical_product_shimmer.dart';
 import 'package:flutter_application_1/common/widgets/texts/section_heading.dart';
+import 'package:flutter_application_1/features/shop/controllers/category_controller.dart';
 import 'package:flutter_application_1/features/shop/models/category_model.dart';
 import 'package:flutter_application_1/features/shop/models/product_model.dart';
-import 'package:flutter_application_1/utils/constants/image_strings.dart';
+import 'package:flutter_application_1/features/shop/screens/all_products/all_products.dart';
+import 'package:flutter_application_1/features/shop/screens/store/widgets/category_brand.dart';
 import 'package:flutter_application_1/utils/constants/sizes.dart';
+import 'package:flutter_application_1/utils/helpers/cloud_helper_functions.dart';
+import 'package:get/get.dart';
 
 class TCategoryTab extends StatelessWidget {
   const TCategoryTab({super.key, required this.category});
@@ -15,6 +19,7 @@ class TCategoryTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = CategoryController.instance;
     return ListView(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -23,29 +28,39 @@ class TCategoryTab extends StatelessWidget {
           padding: const EdgeInsets.all(TSizes.defaultSpace),
           child: Column(
             children: [
-              const TBrandShowcase(
-                images: [
-                  TImages.productImage66,
-                  TImages.productImage1,
-                  TImages.productImage11,
-                ],
-              ),
-              const TBrandShowcase(
-                images: [
-                  TImages.productImage66,
-                  TImages.productImage1,
-                  TImages.productImage11,
-                ],
-              ),
+              CategoryBrands(category: category),
               const SizedBox(height: TSizes.spaceBtwItems),
-              TSectionHeading(title: 'You might like', onPressed: () {}),
-              const SizedBox(height: TSizes.spaceBtwItems),
-              TGridLayout(
-                itemCount: 4,
-                itemBuilder: (_, index) => TProductCardVertical(
-                  product: ProductModel.empty(),
-                ),
-              ),
+              FutureBuilder(
+                  future:
+                      controller.getCategoryProducts(categoryId: category.id),
+                  builder: (context, snapshot) {
+                    //Funcion Helper que maneja:Loader, No record, mensaje de error
+                    final response =
+                        TCloudHelperFunctions.checkMultiRecordState(
+                            snapshot: snapshot,
+                            loader: const TVerticalProductShimmer());
+                    if (response != null) return response;
+                    //Si encuentra records
+                    final products = snapshot.data!;
+                    return Column(
+                      children: [
+                        TSectionHeading(
+                            title: 'You might like',
+                            onPressed: () => Get.to(AllProducts(
+                                  title: category.name,
+                                  futureMethod: controller.getCategoryProducts(
+                                      categoryId: category.id, limit: -1),
+                                ))),
+                        const SizedBox(height: TSizes.spaceBtwItems),
+                        TGridLayout(
+                          itemCount: products.length,
+                          itemBuilder: (_, index) => TProductCardVertical(
+                            product: products[index],
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
             ],
           ),
         ),

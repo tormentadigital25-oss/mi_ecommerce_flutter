@@ -99,7 +99,7 @@ class TDummyData {
   ];
 
   static final List<ProductModel> products = [
-    
+    /*
     ProductModel(
       id: '001',
       title: 'Green Nike sports shoe',
@@ -302,7 +302,7 @@ class TDummyData {
       ],
       productType: 'ProductType.variable',
     ),
-     
+     */
     ///Products after banner
     ProductModel(
       id: '005',
@@ -377,6 +377,7 @@ class TDummyData {
       ],
       productType: 'ProductType.variable',
     ),
+    /*
     ProductModel(
       id: '006',
       title: 'SAMSUNG Galaxy S9',
@@ -447,6 +448,6 @@ class TDummyData {
       ],
       productType: 'ProductType.single',
     ),
-    
+    */
   ];
 }

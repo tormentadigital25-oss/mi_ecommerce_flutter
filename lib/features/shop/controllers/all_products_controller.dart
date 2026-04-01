@@ -9,7 +9,9 @@ class AllProductsController extends GetxController {
 
   final repository = ProductRepository.instance;
   final RxString selectedSortOption = 'Name'.obs;
+  // Lista reactiva que la UI escucha mediante Obx
   final RxList<ProductModel> products = <ProductModel>[].obs;
+  /// Obtiene productos basados en una consulta específica de Firebase
   Future<List<ProductModel>> fetchProductsByQuery(Query? query) async {
     try {
       if (query == null) return [];
@@ -20,7 +22,8 @@ class AllProductsController extends GetxController {
       return [];
     }
   }
-
+  /// Ordena la lista de productos basada en la opción seleccionada.
+  /// Incluye validaciones de seguridad (Null Safety) para evitar cierres inesperados
   void sortProducts(String sortOption) {
     selectedSortOption.value = sortOption;
 
@@ -59,10 +62,10 @@ class AllProductsController extends GetxController {
         products.sort((a, b) => a.title.compareTo(b.title));
     }
 
-    // IMPORTANTE: Esto le dice a la UI que debe redibujarse con el nuevo orden
+    // Fuerza la actualización de la interfaz gráfica tras el reordenamiento
     products.refresh();
   }
-
+  /// Asigna una nueva lista de productos y aplica un orden inicial por defecto.
   void assignProducts(List<ProductModel> products){
     this.products.assignAll(products);
     sortProducts('Name');

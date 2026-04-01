@@ -16,9 +16,9 @@ class App extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: TAppTheme.lightTheme,
       darkTheme: TAppTheme.darkTheme,
-      initialBinding: GeneralBindings(),
-      getPages: AppRoutes.pages,
-      home: const Scaffold(backgroundColor: TColors.primary, body: Center(child: CircularProgressIndicator(color: Colors.white,),),),
+      initialBinding: GeneralBindings(), // ¡Excelente, esto carga tus repositorios!
+      initialRoute: '/', // Definimos la ruta inicial
+      getPages: AppRoutes.pages, // Asegúrate que aquí esté definido '/'
     );
   }
 }

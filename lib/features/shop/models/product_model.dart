@@ -58,7 +58,7 @@ class ProductModel {
       'SalePrice': salePrice,
       'IsFeatured': isFeatured,
       'CategoryId': categoryId,
-      'Brand': brand!.toJson(),
+      'Brand': brand?.toJson(),
       'Description': description,
       'ProductType': productType,
       'ProductAttributes': productAttributes != null
@@ -128,14 +128,20 @@ class ProductModel {
       categoryId: data['CategoryId'] ?? '',
       description: data['Description'] ?? '',
       productType: data['ProductType'] ?? '',
-      brand: BrandModel.fromJson(data['Brand']),
+      brand: (data['Brand'] != null && data['Brand'] is Map)
+          ? BrandModel.fromJson(Map<String, dynamic>.from(data['Brand']))
+          : BrandModel.empty(),
       images: data['Images'] != null ? List<String>.from(data['Images']) : [],
-      productAttributes: (data['ProductAttributes'] as List<dynamic>)
-          .map((e) => ProductAttributeModel.fromJson(e))
-          .toList(),
-      productVariations: (data['ProductVariations'] as List<dynamic>)
-          .map((e) => ProductVariationModel.fromJson(e))
-          .toList(),
+      productAttributes: (data['ProductAttributes'] as List<dynamic>?)
+              ?.map((e) => ProductAttributeModel.fromJson(
+                  Map<String, dynamic>.from(e as Map)))
+              .toList() ??
+          [],
+      productVariations: (data['ProductVariations'] as List<dynamic>?)
+              ?.map((e) => ProductVariationModel.fromJson(
+                  Map<String, dynamic>.from(e as Map)))
+              .toList() ??
+          [],
     );
   }
 }
